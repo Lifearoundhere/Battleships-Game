@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       div.textContent = `${i}`
       div.addEventListener('click',()=>{
         console.log(div)
-        nodeList(boards,0,div.textContent, 5, false)
+        nodeList(div.textContent)
         return printShip(div, parseInt(div.textContent) +1, div.parentNode.childNodes)
       })
       boards[j].appendChild(div)
@@ -60,9 +60,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(shipToPlace === null) return false
     // const xCoordinate = xy % gridLength
     // const yCoordinate = Math.floor(xy/gridLength)
-    // console.log(xy,`x:${xCoordinate}`,`y:${yCoordinate}` )
     div.className = shipToPlace.cssClass
-    // console.log( 'inisal' ,xy)
     let i = shipToPlace.width - 1
     if(parseInt((xy - i).toFixed().match(/[0-9]$/g)) < i){
       console.log('%',parseInt((xy - i).toFixed().match(/[0-9]$/g)))
@@ -75,34 +73,24 @@ document.addEventListener('DOMContentLoaded',()=>{
     }while (0<i)
     // return shipToPlace.cssClass
   }
-  const checkFreeSpace= function(xCoord, yCoord){
-    // const maxCoord = coordArray()[0][gridLength-1]
-    // const minCoord = coordArray()[0][0]
-    const localGrid = coordArray()
-    localGrid[xCoord][yCoord] = null
-    return localGrid
 
-  }
-  // console.log(checkFreeSpace(3,5))
-  const nodeList = function(boards=boards,list = 0,id , shipLength, rotation=false){
-    const nodes = boards[list]
-    const cellArr = document.querySelectorAll('.pixel0')
-    let xCoord = id % gridLength
-    let yCoord = parseInt(id.toString().match(/^[0-9]/g))/*Math.floor(id/gridLength)*/
-    nodes.childNodes[id].onclick = console.log(id,xCoord,yCoord )
-    if(rotation) [xCoord, yCoord] = [yCoord, xCoord]
-    if(xCoord < shipLength){
-      const rowStart = parseInt(yCoord+'0')
-      const rowEnd = parseInt(yCoord+'9')
-      console.log('rowStart',rowStart,'rowEnd',rowEnd)
-      const rowArr = []
-      cellArr.forEach((elem, index)=>{
-        if(index>=rowStart&&index<=rowEnd) {
-          rowArr.push( elem)
-        }
-      })
-      console.log(rowArr)
-    }
+  const nodeList = function(id){
+    const arrParent = document.querySelector('.User')
+    const cellArr = arrParent.querySelectorAll('div')
+    const xCoord = id % gridLength
+    const yCoord = parseInt(id.toString().match(/^[0-9]/g))/*Math.floor(id/gridLength)*/
+    const rowStart = parseInt(yCoord+'0')
+    const rowEnd = parseInt(yCoord+'9')
+    console.log('rowStart',rowStart,'rowEnd',rowEnd)
+    const rowArr = []
+    cellArr.forEach((elem, index)=>{
+      if(index>=rowStart&&index<=rowEnd) {
+        rowArr.push( elem)
+      }
+    })
+    console.log(rowArr)
+    return rowArr
+    // }
   }
 
 })

@@ -12,9 +12,13 @@ body{
 }
 .header{
   grid-area: 1 / 1 / 2 / 3;
+  justify-self:center;
+  align-self: center;
 }
 .footer{
   grid-area: 3 / 1 / 4 / 3;
+  justify-self:center;
+  align-self: center;
 }
 .boards{
   grid-area: 2 / 1 / 3 / 3;
@@ -37,6 +41,10 @@ body{
 .sidebar{
   grid-area: 1 / 3 / 4 / 4;
 }
+.block{
+  cursor: pointer;
+  z-index: 1;
+}
 /* color palette
   #6B74A3
   #6B90A3
@@ -47,4 +55,23 @@ body{
   #8DAAA5
   .div4 { grid-area: 2 / 1 / 3 / 2; }
 .div5 { grid-area: 2 / 2 / 3 / 3; }
+ */
+.destoryerCss, .submarineCss, .cruiserCss, .battleshipCss, .carrierCss{
+  background-color: red;
+  /* justify-self:center; */
+  align-self: center;
+}
+.test{
+  background-color: black;
+  grid-row: 2/6;
+  grid-column: 2/3;
+  z-index: 2;
+  cursor: pointer;
+  position: fixed;
+}
+
+/* const boards = document.querySelectorAll('.boards')
+  let x= document.createElement('div')
+  x.classList.add('test')
+  boards[0].appendChild(x)
  */

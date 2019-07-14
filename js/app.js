@@ -30,8 +30,7 @@ const allShipType = {
   Carrier: [1, 5, 'Carrier','carrierCss']
 }
 let shipToPlace = null
-// let i = 0
-// let randomStart = Math.floor(Math.random() * gridLength ** 2)
+
 document.addEventListener('DOMContentLoaded',()=>{
   class Grid {
     constructor(gridLength=gridLength, name, cssClass) {
@@ -86,14 +85,13 @@ document.addEventListener('DOMContentLoaded',()=>{
         return tempArr
       }
       this.autoShipPlacement = function(){
-        for (let key in allShipType){
-          shipToPlace = new Ship(allShipType[key][0],allShipType[key][1],allShipType[key][2],allShipType[key][3])
-          console.log(shipToPlace)
-          const index = randomGridCell()
+        for (const keys in allShipType){
+          const currentShipCPU = allShipType[keys]
+          shipToPlace = new Ship(currentShipCPU[0],currentShipCPU[1],currentShipCPU[2],currentShipCPU[3])
+          let index = randomGridCell()
           console.log(index)
-          console.log(this.blankPixels()[index])
+          if(this.blankPixels()[index]===null) index = randomGridCell()
           printShip(this.blankPixels()[index], index, this.blankPixels()[index],true)
-
         }
       }
     }
@@ -120,20 +118,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   })
   const printShip = function (div, xy, parent,AI=false){
     if(shipToPlace === null) return false
-    // const freespace = nodeList(div.textContent)
-    // console.log('freespace1', freespace)
-    // let arrFree = []
-    // freespace.forEach(function(item,index) {
-    //   if(item.classList.value==='pixel0') {
-    //     console.log(index , item)
-    //     arrFree.push(index)
-    //   }
-    // })
-    // console.log('freespace2', arrFree)
+
     console.log(parent)
     div.className = shipToPlace.cssClass
     let i = shipToPlace.width - 1
-
     if(parseInt((xy - i).toFixed().match(/[0-9]$/g)) < i){
       console.log('%',parseInt((xy - i).toFixed().match(/[0-9]$/g)))
     }
@@ -156,8 +144,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
   const nodeList = function(id,arr){
-    // const arrParent = document.querySelector('.User')
-    // const cellArr = arrParent.querySelectorAll('div')
     const xCoord = id % gridLength
     const yCoord = parseInt(id.toString().match(/^[0-9]/g))/*Math.floor(id/gridLength)*/
     const rowStart = parseInt(yCoord+'0')
@@ -170,7 +156,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     })
     return rowArr
-    // }
   }
   y.autoShipPlacement()
 })

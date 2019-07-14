@@ -1,5 +1,8 @@
 const gridLength = 10
 const regex = new RegExp('pixel')
+const randomGridCell = function(){
+  return Math.round(Math.random()*Math.pow(gridLength,2))
+}
 class Ship {
   constructor(height, width, name, cssClass) {
     this.name = name
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       this.gridLength = gridLength
       this.cssClass = cssClass
       this.board = function(){
-        const box = document.querySelector('.User')
+        const box = document.querySelector(`.${this.name}`)
         const items = box.querySelectorAll('div')
         return Array.from(items)
 
@@ -82,6 +85,17 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
         return tempArr
       }
+      this.autoShipPlacement = function(){
+        for (let key in allShipType){
+          shipToPlace = new Ship(allShipType[key][0],allShipType[key][1],allShipType[key][2],allShipType[key][3])
+          console.log(shipToPlace)
+          const index = randomGridCell()
+          console.log(index)
+          console.log(this.blankPixels()[index])
+          printShip(this.blankPixels()[index], index, this.blankPixels()[index],true)
+
+        }
+      }
     }
   }
   const shipSelect = document.querySelectorAll('button')
@@ -91,6 +105,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   x.generateGrid()
   const y = new Grid(10,'AI','AICss')
   y.generateGrid()
+  console.log(y.name)
+  console.log(x.name)
   // Add grid to boards ^
 
   shipSelect.forEach(button=>{
@@ -102,7 +118,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       console.log(shipToPlace)
     })
   })
-  const printShip = function (div, xy, parent){
+  const printShip = function (div, xy, parent,AI=false){
     if(shipToPlace === null) return false
     // const freespace = nodeList(div.textContent)
     // console.log('freespace1', freespace)
@@ -114,16 +130,24 @@ document.addEventListener('DOMContentLoaded',()=>{
     //   }
     // })
     // console.log('freespace2', arrFree)
-
+    console.log(parent)
     div.className = shipToPlace.cssClass
     let i = shipToPlace.width - 1
+
     if(parseInt((xy - i).toFixed().match(/[0-9]$/g)) < i){
       console.log('%',parseInt((xy - i).toFixed().match(/[0-9]$/g)))
     }
     do{
-      parent[xy].previousElementSibling.className = shipToPlace.cssClass
+      if(AI){
+        parent.previousElementSibling.className = shipToPlace.cssClass
+      }else{
+        parent[xy].previousElementSibling.className = shipToPlace.cssClass
+      }
+
       xy--
+
       i = i - 1
+
       console.log(i,':',xy)
     }while (0<i)
     console.log(x.blankPixels())
@@ -148,5 +172,5 @@ document.addEventListener('DOMContentLoaded',()=>{
     return rowArr
     // }
   }
-  console.log()
+  y.autoShipPlacement()
 })

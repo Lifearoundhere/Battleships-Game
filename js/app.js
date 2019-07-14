@@ -1,5 +1,6 @@
 const gridLength = 10
-class ship {
+const regex = new RegExp('pixel')
+class Ship {
   constructor(height, width, name, cssClass) {
     this.name = name
     this.height = height
@@ -29,37 +30,91 @@ let shipToPlace = null
 // let i = 0
 // let randomStart = Math.floor(Math.random() * gridLength ** 2)
 document.addEventListener('DOMContentLoaded',()=>{
-  const shipSelect = document.querySelectorAll('button')
-  let currentShip = null
+  class Grid {
+    constructor(gridLength=gridLength, name, cssClass) {
+      this.name = name
+      this.gridLength = gridLength
+      this.cssClass = cssClass
+      this.board = function(){
+        const box = document.querySelector('.User')
+        const items = box.querySelectorAll('div')
+        return Array.from(items)
 
-  // Add grid to boards
-  const boards = document.querySelectorAll('.boards')
-  for(let j = 0; j < boards.length; j++){
-    for(let i = 0; i < (gridLength**2); i++){
-      const div = document.createElement('div')
-      div.className = `pixel${j}`
-      div.textContent = `${i}`
-      div.addEventListener('click',()=>{
-        console.log(div)
-        nodeList(div.textContent)
-        return printShip(div, parseInt(div.textContent) +1, div.parentNode.childNodes)
-      })
-      boards[j].appendChild(div)
+      }
+      this.style = function(){
+        return console.log(this)
+      }
+      this.generateGrid = function(){
+        const board = document.querySelectorAll(`.${this.name}`)
+        for(let i = 0; i < (this.gridLength**2); i++){
+          const div = document.createElement('div')
+          div.className = `pixel${this.name}`
+          div.textContent = `${i}`
+          div.addEventListener('click',()=>{
+            const lastone = div.textContent.toString().split('').pop()
+            const result = div.className
+            const test = result.match(regex)
+
+            if(lastone<shipToPlace.width) {
+              alert('Ahoy , Matey!, that ship is to large for that space')
+              return false
+            }
+            if(test===null) {
+              alert('Ahoy , Matey!, A ship can\'t be place over another')
+              return false
+            }
+            console.log('clicked' ,div)
+            console.log(nodeList(div.textContent,this.blankPixels()))
+            return printShip(div, parseInt(div.textContent) +1, div.parentNode.childNodes)
+          })
+          board[0].appendChild(div)
+        }
+      }
+      this.blankPixels = function(){
+        const elem = this.board()
+        const tempArr = []
+        for(const value of elem.values()) {
+          if (value.className === `pixel${this.name}`){
+            tempArr.push(value)
+          }else{
+            tempArr.push(null)
+          }
+        }
+        return tempArr
+      }
     }
   }
+  const shipSelect = document.querySelectorAll('button')
+  let currentShip = null
+  // Add grid to boards:
+  const x = new Grid(10,'User','userCss')
+  x.generateGrid()
+  const y = new Grid(10,'AI','AICss')
+  y.generateGrid()
+  // Add grid to boards ^
+
   shipSelect.forEach(button=>{
     button.addEventListener('click',()=>{
       currentShip = allShipType[button.innerText]
       button.disabled = true
       console.log(currentShip)
-      shipToPlace = new ship(currentShip[0],currentShip[1],currentShip[2],currentShip[3])
+      shipToPlace = new Ship(currentShip[0],currentShip[1],currentShip[2],currentShip[3])
       console.log(shipToPlace)
     })
   })
   const printShip = function (div, xy, parent){
     if(shipToPlace === null) return false
-    // const xCoordinate = xy % gridLength
-    // const yCoordinate = Math.floor(xy/gridLength)
+    // const freespace = nodeList(div.textContent)
+    // console.log('freespace1', freespace)
+    // let arrFree = []
+    // freespace.forEach(function(item,index) {
+    //   if(item.classList.value==='pixel0') {
+    //     console.log(index , item)
+    //     arrFree.push(index)
+    //   }
+    // })
+    // console.log('freespace2', arrFree)
+
     div.className = shipToPlace.cssClass
     let i = shipToPlace.width - 1
     if(parseInt((xy - i).toFixed().match(/[0-9]$/g)) < i){
@@ -71,26 +126,27 @@ document.addEventListener('DOMContentLoaded',()=>{
       i = i - 1
       console.log(i,':',xy)
     }while (0<i)
+    console.log(x.blankPixels())
     // return shipToPlace.cssClass
   }
 
-  const nodeList = function(id){
-    const arrParent = document.querySelector('.User')
-    const cellArr = arrParent.querySelectorAll('div')
+
+  const nodeList = function(id,arr){
+    // const arrParent = document.querySelector('.User')
+    // const cellArr = arrParent.querySelectorAll('div')
     const xCoord = id % gridLength
     const yCoord = parseInt(id.toString().match(/^[0-9]/g))/*Math.floor(id/gridLength)*/
     const rowStart = parseInt(yCoord+'0')
     const rowEnd = parseInt(yCoord+'9')
     console.log('rowStart',rowStart,'rowEnd',rowEnd)
     const rowArr = []
-    cellArr.forEach((elem, index)=>{
+    arr.forEach((elem, index)=>{
       if(index>=rowStart&&index<=rowEnd) {
         rowArr.push( elem)
       }
     })
-    console.log(rowArr)
     return rowArr
     // }
   }
-
+  console.log()
 })

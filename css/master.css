@@ -75,3 +75,12 @@ body{
   x.classList.add('test')
   boards[0].appendChild(x)
  */
+ .inPlay{
+   background-color: navy;
+ }
+ .hit{
+   background-color: yellow;
+ }
+ .miss{
+   background-color: #fafafa;
+ }

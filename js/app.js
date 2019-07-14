@@ -1,7 +1,13 @@
 const gridLength = 10
+let numOfShipPlacements = null
 const regex = new RegExp('pixel')
 const randomGridCell = function(){
   return Math.round(Math.random()*Math.pow(gridLength,2))
+}
+const children = function(name){
+  const parent = document.querySelector(`.${name}`)
+  const child = parent.querySelectorAll('div')
+  return child
 }
 class Ship {
   constructor(height, width, name, cssClass) {
@@ -66,7 +72,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               return false
             }
             console.log('clicked' ,div)
-            console.log(nodeList(div.textContent,this.blankPixels()))
+            // console.log(nodeList(div.textContent,this.blankPixels()))
             return printShip(div, parseInt(div.textContent) +1, div.parentNode.childNodes)
           })
           board[0].appendChild(div)
@@ -114,6 +120,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       console.log(currentShip)
       shipToPlace = new Ship(currentShip[0],currentShip[1],currentShip[2],currentShip[3])
       console.log(shipToPlace)
+      startVerses(numOfShipPlacements)
     })
   })
   const printShip = function (div, xy, parent,AI=false){
@@ -138,10 +145,10 @@ document.addEventListener('DOMContentLoaded',()=>{
 
       console.log(i,':',xy)
     }while (0<i)
+    numOfShipPlacements++
     console.log(x.blankPixels())
     // return shipToPlace.cssClass
   }
-
 
   const nodeList = function(id,arr){
     const xCoord = id % gridLength
@@ -158,4 +165,27 @@ document.addEventListener('DOMContentLoaded',()=>{
     return rowArr
   }
   y.autoShipPlacement()
+  const startVerses = function(numberOfShips){
+    if(numberOfShips!==9) return false
+
+    const right = children(y.name)
+    const left = children(x.name)
+    //add new class
+    //add new addEventListener
+    // add win condition
+    right.forEach(div =>{
+      div.classList.add('inPlay')
+      div.removeEventListener('click')
+      div.addEventListener('click',()=>{
+        if(div.classList.match(regex)===null){
+          div.classList = 'hit'
+        }else{
+          div.classList = 'miss'
+        }
+      })
+    })
+
+
+  }
+
 })

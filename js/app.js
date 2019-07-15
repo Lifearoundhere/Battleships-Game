@@ -1,7 +1,7 @@
 const gridLength = 10
 let numOfShipPlacements = null
 const regex = new RegExp('pixel')
-const regexScore = new RegExp('hit|miss')
+const regexScore = new RegExp('miss')
 let playerhits = null
 let aIHits = null
 const randomGridCell = function(){
@@ -76,15 +76,9 @@ document.addEventListener('DOMContentLoaded',()=>{
                 return false
               }
               console.log('clicked' ,div)
-              // console.log(nodeList(div.textContent,this.blankPixels()))
-              return printShip(div, parseInt(div.textContent) +1, div.parentNode.childNodes)
-            }else{
-              const onHit = (e)=>{
-                console.log(e.target)
-              }
-              const onMiss= (e)=>{
-                console.log(e.target)
-              }
+              // console.log(nodeList(div.textContent,this.blankPixels())
+              //div.parentNode.childNodes
+              return printShip(div, parseInt(div.textContent) +1, this.board())
             }
           })
           board[0].appendChild(div)
@@ -109,7 +103,7 @@ document.addEventListener('DOMContentLoaded',()=>{
           let index = randomGridCell()
           console.log(index)
           if(this.blankPixels()[index]===null) index = randomGridCell()
-          printShip(this.blankPixels()[index], index, this.blankPixels()[index],true)
+          printShip(this.blankPixels()[index], index, this.blankPixels())
         }
       }
     }
@@ -121,8 +115,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   x.generateGrid()
   const y = new Grid(10,'AI','AICss')
   y.generateGrid()
-  console.log(y.name)
-  console.log(x.name)
   // Add grid to boards ^
 
   shipSelect.forEach(button=>{
@@ -135,31 +127,19 @@ document.addEventListener('DOMContentLoaded',()=>{
       startVerses(numOfShipPlacements)
     })
   })
-  const printShip = function (div, xy, parent,AI=false){
+  const printShip = function (div, xy, parent){
     if(shipToPlace === null) return false
-
-    console.log(parent)
     div.className = shipToPlace.cssClass
     let i = shipToPlace.width - 1
     if(parseInt((xy - i).toFixed().match(/[0-9]$/g)) < i){
       console.log('%',parseInt((xy - i).toFixed().match(/[0-9]$/g)))
     }
     do{
-      if(AI){
-        parent.previousElementSibling.className = shipToPlace.cssClass
-      }else{
-        parent[xy].previousElementSibling.className = shipToPlace.cssClass
-      }
-
+      parent[xy].previousElementSibling.className = shipToPlace.cssClass
       xy--
-
       i = i - 1
-
-      console.log(i,':',xy)
     }while (0<i)
     numOfShipPlacements++
-    console.log(x.blankPixels())
-    // return shipToPlace.cssClass
   }
 
   const nodeList = function(id,arr){
@@ -196,25 +176,48 @@ document.addEventListener('DOMContentLoaded',()=>{
       })
     })
   }
+  let ifHitLoopCount = null
+  let hit = null
   const aIMove = function(){
     const left = children(x.name)
+    console.log(ifHitLoopCount)
     let selectCell = null
+    const gridIndex = randomGridCell()
+
     do{
-      selectCell = left[randomGridCell()].classList
-    } while(selectCell.value.match(regexScore))
+
+      selectCell = left[gridIndex]
+
+    } while(selectCell.classList.value.match(regexScore))
 
     console.log(selectCell)
-    const test = selectCell.value.match(regex)
+    const test = selectCell.classList.value.match(regex)
+    console.log(test)
     if(test===null){
-      selectCell.add('hit')
-      //loop around select
-      // find next hit in 4 turns
-      // loop above
-      // exit to anothr random
+
+      if(ifHitLoopCount === null){
+
+        selectCell.classList.add('hit')
+
+        ifHitLoopCount = 0
+        hit = gridIndex
+        console.log(hit)
+
+      }else{
+
+        if(ifHitLoopCount === 3) ifHitLoopCount = null
+
+        const nextMoves = [(hit-1), (hit-10), (hit+1), (hit+10)]
+        console.log(nextMoves)
+        const loopingTarget = left[nextMoves[ifHitLoopCount]]
+        loopingTarget.classList.add('hit')
+        ifHitLoopCount++
+
+      }
       aIHits++
       winCondition(aIHits, false)
     }else{
-      selectCell.add('miss')
+      selectCell.classList.add('miss')
     }
   }
   // sort out win condition

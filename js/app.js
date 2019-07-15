@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         if(test===null){
           div.classList = 'hit'
           playerhits++
-          winCondition(playerhits,aIHits)
+          winCondition(playerhits, true)
         }else{
           div.classList = 'miss'
         }
@@ -207,18 +207,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     const test = selectCell.value.match(regex)
     if(test===null){
       selectCell.add('hit')
+      //loop around select
+      // find next hit in 4 turns
+      // loop above
+      // exit to anothr random
       aIHits++
-      winCondition(playerhits,aIHits)
+      winCondition(aIHits, false)
     }else{
       selectCell.add('miss')
     }
   }
   // sort out win condition
-  const winCondition = function(playerhits, aIHits){
-    if(playerhits===10){
+  const winCondition = function(hits, user){
+    if(hits===10 && user === true){
       alert('You Won Matey')
-    }else if(aIHits === 17){
-      alert('You Won Matey')
+    }else if(hits===17 && user === false){
+      alert('better luck Matey')
     }
   }
 

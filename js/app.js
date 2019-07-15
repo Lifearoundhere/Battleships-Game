@@ -1,6 +1,8 @@
 const gridLength = 10
 let numOfShipPlacements = null
 const regex = new RegExp('pixel')
+let playerhits = null
+let aIHits = null
 const randomGridCell = function(){
   return Math.round(Math.random()*Math.pow(gridLength,2))
 }
@@ -59,21 +61,30 @@ document.addEventListener('DOMContentLoaded',()=>{
           div.className = `pixel${this.name}`
           div.textContent = `${i}`
           div.addEventListener('click',()=>{
-            const lastone = div.textContent.toString().split('').pop()
-            const result = div.className
-            const test = result.match(regex)
+            if(numOfShipPlacements !== 10){
+              const lastone = div.textContent.toString().split('').pop()
+              const result = div.className
+              const test = result.match(regex)
 
-            if(lastone<shipToPlace.width) {
-              alert('Ahoy , Matey!, that ship is to large for that space')
-              return false
+              if(lastone<shipToPlace.width) {
+                alert('Ahoy , Matey!, that ship is to large for that space')
+                return false
+              }
+              if(test===null) {
+                alert('Ahoy , Matey!, A ship can\'t be place over another')
+                return false
+              }
+              console.log('clicked' ,div)
+              // console.log(nodeList(div.textContent,this.blankPixels()))
+              return printShip(div, parseInt(div.textContent) +1, div.parentNode.childNodes)
+            }else{
+              const onHit = (e)=>{
+                console.log(e.target)
+              }
+              const onMiss= (e)=>{
+                console.log(e.target)
+              }
             }
-            if(test===null) {
-              alert('Ahoy , Matey!, A ship can\'t be place over another')
-              return false
-            }
-            console.log('clicked' ,div)
-            // console.log(nodeList(div.textContent,this.blankPixels()))
-            return printShip(div, parseInt(div.textContent) +1, div.parentNode.childNodes)
           })
           board[0].appendChild(div)
         }
@@ -166,7 +177,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
   y.autoShipPlacement()
   const startVerses = function(numberOfShips){
-    if(numberOfShips!==9) return false
+    if(numberOfShips!==5) return false
 
     const right = children(y.name)
     const left = children(x.name)
@@ -175,17 +186,28 @@ document.addEventListener('DOMContentLoaded',()=>{
     // add win condition
     right.forEach(div =>{
       div.classList.add('inPlay')
-      div.removeEventListener('click')
+      const result = div.className
+      const test = result.match(regex)
+      console.log(test, logError)
       div.addEventListener('click',()=>{
-        if(div.classList.match(regex)===null){
+        if(test===null){
           div.classList = 'hit'
+          playerhits++
+          winCondition(playerhits,aIHits)
         }else{
           div.classList = 'miss'
         }
       })
     })
 
-
   }
+  const winCondition = function(playerhits, aIHits){
+    if(playerhits===10){
+      alert('You Won Matey')
+    }else if(aIHits === 20){
+      alert('You Won Matey')
+    }
+  }
+
 
 })

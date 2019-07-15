@@ -1,6 +1,7 @@
 const gridLength = 10
 let numOfShipPlacements = null
 const regex = new RegExp('pixel')
+const regexScore = new RegExp('hit|miss')
 let playerhits = null
 let aIHits = null
 const randomGridCell = function(){
@@ -178,17 +179,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   y.autoShipPlacement()
   const startVerses = function(numberOfShips){
     if(numberOfShips!==5) return false
-
     const right = children(y.name)
-    const left = children(x.name)
-    //add new class
-    //add new addEventListener
-    // add win condition
     right.forEach(div =>{
       div.classList.add('inPlay')
       const result = div.className
       const test = result.match(regex)
-      console.log(test, logError)
       div.addEventListener('click',()=>{
         if(test===null){
           div.classList = 'hit'
@@ -197,14 +192,32 @@ document.addEventListener('DOMContentLoaded',()=>{
         }else{
           div.classList = 'miss'
         }
+        aIMove()
       })
     })
-
   }
+  const aIMove = function(){
+    const left = children(x.name)
+    let selectCell = null
+    do{
+      selectCell = left[randomGridCell()].classList
+    } while(selectCell.value.match(regexScore))
+
+    console.log(selectCell)
+    const test = selectCell.value.match(regex)
+    if(test===null){
+      selectCell.add('hit')
+      aIHits++
+      winCondition(playerhits,aIHits)
+    }else{
+      selectCell.add('miss')
+    }
+  }
+  // sort out win condition
   const winCondition = function(playerhits, aIHits){
     if(playerhits===10){
       alert('You Won Matey')
-    }else if(aIHits === 20){
+    }else if(aIHits === 17){
       alert('You Won Matey')
     }
   }

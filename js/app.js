@@ -178,22 +178,32 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const aIMove = function(){
     const left = children(x.name)
+    console.log(left)
     console.log(ifHitLoopCount)
     let selectCell = null
-    let gridIndex = randomGridCell()
-
+    let gridIndex = null
     do{
+      gridIndex = randomGridCell()
 
       selectCell = left[gridIndex]
 
     } while(selectCell.classList.value.match(regexScore)) //Filter out miss
 
     console.log(selectCell)
-    const test = selectCell.classList.value.match(regex) // if note a ship goes to miss
+    let test = selectCell.classList.value.match(regex) // if note a ship goes to miss
+    if(test===null) //is a hit
+    {
+      test = []
+    }else{
+      test = test[0]
+    }
     console.log(test)
 
-    if(test===null){
-
+    if(Array.isArray(test)){
+      // add var to test ifs
+      // const debugVar = 65
+      // selectCell = left[debugVar]
+      // Testing ^
       if(ifHitLoopCount === null){
 
         selectCell.classList.add('hit')
@@ -203,7 +213,6 @@ document.addEventListener('DOMContentLoaded',()=>{
         console.log(hit)
 
       }else{
-
         if(ifHitLoopCount === 3) ifHitLoopCount = null
 
         const nextMoves = [(hit-1), (hit-10), (hit+1), (hit+10)]
@@ -233,5 +242,42 @@ document.addEventListener('DOMContentLoaded',()=>{
       alert('better luck Matey')
     }
   }
+  // Design Code below this pointer
+  const watchingUser = document.querySelector('.User')
+  const watchingAI = document.querySelector('.AI')
+  function setCoords(e, box) {
+
+    if(box){
+      document.getElementById('XUser').innerText = e['offsetX']
+      document.getElementById('YUser').innerText = e['offsetY']
+    }else{
+      document.getElementById('XAI').innerText = e['offsetX']
+      document.getElementById('YAI').innerText = e['offsetY']
+    }
+  }
+  function update(e) {
+    setCoords(e,true)
+  }
+  function update2(e) {
+    setCoords(e,false)
+  }
+  watchingUser.addEventListener('mouseenter', update, false)
+  watchingUser.addEventListener('mousemove', update, false)
+  watchingUser.addEventListener('mouseleave', update, false)
+
+  watchingAI.addEventListener('mouseenter', update2, false)
+  watchingAI.addEventListener('mousemove', update2, false)
+  watchingAI.addEventListener('mouseleave', update2, false)
+
+
+  document.getElementById('openNav').addEventListener('click', ()=>{
+    document.querySelector('.sidebar').classList.toggle('active')
+  })
+
+  document.querySelector('.closeAside').addEventListener('click', ()=>{
+    document.querySelector('.sidebar').classList.toggle('active')
+  })
+
+
 
 })

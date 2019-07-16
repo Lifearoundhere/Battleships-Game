@@ -4,23 +4,47 @@
     <meta charset="utf-8">
     <script src="./js/app.js" charset="utf-8"></script>
     <link rel="stylesheet" href="./css/reset.css">
+    <link href="https://fonts.googleapis.com/css?family=Architects+Daughter|East+Sea+Dokdo|Pangolin|UnifrakturMaguntia&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/master.css">
     <title>Battleships</title>
   </head>
   <body>
+    <div class="sidebar">
+        <a href="#" class="closeAside" >&#10095;</a>
+        <h2>How to Play<h2>
+          <ul>
+            <li>Plot all of your ships by clicking the relivant buttons below and clicking there place on the grid to the left</li>
+            <li>Take turns firing upon the enemy by clicking on the grid on the right</li>
+            <li>When the ships are sunk the winner iis declared. As the first person to sink all of the enemy ships wins the game</li>
+          </ul>
+
+    </div>
     <main class="container">
       <header class="header">
         <h1>Battleships</h1>
         <!-- https://lifearoundhere.github.io/Battleships-Game/ -->
+        <p id="openNav">&#10094;</p>
       </header>
+      <div class="flexSpaced">
+
+        <p class="target">Target <span id="XUser">0</span>,
+          <span id="YUser">0</span></p>
+          <h3>Player: You</h3>
+      </div>
       <div class="boards User">
+      </div>
+      <div class="flexSpaced">
+        <p class="target">Target <span id="XAI">0</span>,
+          <span id="YAI">0</span></p>
+          <h3>Player: CPU</h3>
       </div>
       <div class="boards AI">
 
       </div>
-      <div class="sidebar">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <div class="panel">
+
       </div>
+
       <footer class="footer">
         <button type="button" name="Destoryer">Destoryer</button>
         <button type="button" name="Destoryer">Submarine</button>

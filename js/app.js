@@ -4,14 +4,21 @@ const regex = new RegExp('pixel')
 const regexScore = new RegExp('miss')
 let playerhits = null
 let aIHits = null
+
 const randomGridCell = function(){
   return Math.round(Math.random()*Math.pow(gridLength,2))
 }
+
+const lastChar = function(char){
+  return char % gridLength
+}
+
 const children = function(name){
   const parent = document.querySelector(`.${name}`)
   const child = parent.querySelectorAll('div')
   return child
 }
+
 class Ship {
   constructor(height, width, name, cssClass) {
     this.name = name
@@ -27,10 +34,7 @@ class Ship {
     }
   }
 }
-const coordArray = function(){
-  const row = Array.from(Array(10)).map((x,idx)=> idx)
-  return new Array(10).fill(row)
-}
+
 const allShipType = {
   Destoryer: [1, 2, 'Destoryer','destoryerCss'],
   Submarine: [1, 3, 'Submarine','submarineCss'],
@@ -46,15 +50,13 @@ document.addEventListener('DOMContentLoaded',()=>{
       this.name = name
       this.gridLength = gridLength
       this.cssClass = cssClass
+
       this.board = function(){
         const box = document.querySelector(`.${this.name}`)
         const items = box.querySelectorAll('div')
         return Array.from(items)
+      }
 
-      }
-      this.style = function(){
-        return console.log(this)
-      }
       this.generateGrid = function(){
         const board = document.querySelectorAll(`.${this.name}`)
         for(let i = 0; i < (this.gridLength**2); i++){
@@ -75,15 +77,14 @@ document.addEventListener('DOMContentLoaded',()=>{
                 alert('Ahoy , Matey!, A ship can\'t be place over another')
                 return false
               }
-              console.log('clicked' ,div)
-              // console.log(nodeList(div.textContent,this.blankPixels())
-              //div.parentNode.childNodes
+
               return printShip(div, parseInt(div.textContent) +1, this.board())
             }
           })
           board[0].appendChild(div)
         }
       }
+
       this.blankPixels = function(){
         const elem = this.board()
         const tempArr = []
@@ -96,18 +97,29 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
         return tempArr
       }
+
       this.autoShipPlacement = function(){
         for (const keys in allShipType){
           const currentShipCPU = allShipType[keys]
           shipToPlace = new Ship(currentShipCPU[0],currentShipCPU[1],currentShipCPU[2],currentShipCPU[3])
           let index = randomGridCell()
-          console.log(index)
-          if(this.blankPixels()[index]===null) index = randomGridCell()
-          printShip(this.blankPixels()[index], index, this.blankPixels())
+          while((shipToPlace.width) > lastChar(index) && lastChar(index) < 9 ) {
+            index = randomGridCell()
+            if(this.blankPixels()[index]===null) index = randomGridCell()
+          }
+          console.log(shipToPlace.width, lastChar(index), index)
+          try {
+            printShip(this.blankPixels()[index], index, this.blankPixels())
+          } catch(error){
+            this.board().forEach(div=> div.remove())
+            this.generateGrid()
+            this.autoShipPlacement()
+          }//bug null
         }
       }
     }
   }
+
   const shipSelect = document.querySelectorAll('button')
   let currentShip = null
   // Add grid to boards:
@@ -127,13 +139,10 @@ document.addEventListener('DOMContentLoaded',()=>{
       startVerses(numOfShipPlacements)
     })
   })
+
   const printShip = function (div, xy, parent){
     if(shipToPlace === null) return false
-    div.className = shipToPlace.cssClass
-    let i = shipToPlace.width - 1
-    if(parseInt((xy - i).toFixed().match(/[0-9]$/g)) < i){
-      console.log('%',parseInt((xy - i).toFixed().match(/[0-9]$/g)))
-    }
+    let i = shipToPlace.width
     do{
       parent[xy].previousElementSibling.className = shipToPlace.cssClass
       xy--
@@ -142,21 +151,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     numOfShipPlacements++
   }
 
-  const nodeList = function(id,arr){
-    const xCoord = id % gridLength
-    const yCoord = parseInt(id.toString().match(/^[0-9]/g))/*Math.floor(id/gridLength)*/
-    const rowStart = parseInt(yCoord+'0')
-    const rowEnd = parseInt(yCoord+'9')
-    console.log('rowStart',rowStart,'rowEnd',rowEnd)
-    const rowArr = []
-    arr.forEach((elem, index)=>{
-      if(index>=rowStart&&index<=rowEnd) {
-        rowArr.push( elem)
-      }
-    })
-    return rowArr
-  }
-  y.autoShipPlacement()
+  y.autoShipPlacement() //null
+
   const startVerses = function(numberOfShips){
     if(numberOfShips!==5) return false
     const right = children(y.name)
@@ -176,23 +172,26 @@ document.addEventListener('DOMContentLoaded',()=>{
       })
     })
   }
+
   let ifHitLoopCount = null
   let hit = null
+
   const aIMove = function(){
     const left = children(x.name)
     console.log(ifHitLoopCount)
     let selectCell = null
-    const gridIndex = randomGridCell()
+    let gridIndex = randomGridCell()
 
     do{
 
       selectCell = left[gridIndex]
 
-    } while(selectCell.classList.value.match(regexScore))
+    } while(selectCell.classList.value.match(regexScore)) //Filter out miss
 
     console.log(selectCell)
-    const test = selectCell.classList.value.match(regex)
+    const test = selectCell.classList.value.match(regex) // if note a ship goes to miss
     console.log(test)
+
     if(test===null){
 
       if(ifHitLoopCount === null){
@@ -208,16 +207,22 @@ document.addEventListener('DOMContentLoaded',()=>{
         if(ifHitLoopCount === 3) ifHitLoopCount = null
 
         const nextMoves = [(hit-1), (hit-10), (hit+1), (hit+10)]
+        let loopingTarget = null
         console.log(nextMoves)
-        const loopingTarget = left[nextMoves[ifHitLoopCount]]
+        do{
+          loopingTarget = left[nextMoves[ifHitLoopCount]]
+          ifHitLoopCount++
+        // filter out miss and pixel goes to miss
+        // if miss adds to goes to next
+        } while (loopingTarget.classList.value.match(regex)!==null )
         loopingTarget.classList.add('hit')
         ifHitLoopCount++
-
       }
       aIHits++
       winCondition(aIHits, false)
     }else{
       selectCell.classList.add('miss')
+      gridIndex = null
     }
   }
   // sort out win condition
@@ -228,6 +233,5 @@ document.addEventListener('DOMContentLoaded',()=>{
       alert('better luck Matey')
     }
   }
-
 
 })

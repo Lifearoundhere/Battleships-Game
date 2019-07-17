@@ -4,6 +4,7 @@ const regex = new RegExp('pixel')
 const regexScore = new RegExp('miss')
 let playerhits = null
 let aIHits = null
+var audio = new Audio('Sounds/intro.flac')
 
 const randomGridCell = function(){
   return Math.round(Math.random()*Math.pow(gridLength,2))
@@ -45,6 +46,15 @@ const allShipType = {
 let shipToPlace = null
 
 document.addEventListener('DOMContentLoaded',()=>{
+  const messager = document.querySelector('.messager')
+  const stopAni = function(){
+    messager.style.animationPlayState = 'paused'
+  }
+  const userPrompt = function(text){
+    messager.textContent = text
+    messager.style.animationPlayState = 'running'
+    setTimeout(stopAni, 5000)
+  }
   class Grid {
     constructor(gridLength=gridLength, name, cssClass) {
       this.name = name
@@ -62,22 +72,23 @@ document.addEventListener('DOMContentLoaded',()=>{
         for(let i = 0; i < (this.gridLength**2); i++){
           const div = document.createElement('div')
           div.className = `pixel${this.name}`
+          // if(this.name === 'AI') div.classList.add('inPlay')
           div.textContent = `${i}`
           div.addEventListener('click',()=>{
+            console.log(numOfShipPlacements)
             if(numOfShipPlacements !== 10){
-              const lastone = div.textContent.toString().split('').pop()
+              const lastone = parseInt(div.textContent.toString().split('').pop())
               const result = div.className
               const test = result.match(regex)
 
-              if(lastone<shipToPlace.width) {
-                alert('Ahoy , Matey!, that ship is to large for that space')
+              if(lastone +1 < shipToPlace.width) {
+                userPrompt('Ahoy , Matey!, that ship is to large for that space')
                 return false
               }
               if(test===null) {
-                alert('Ahoy , Matey!, A ship can\'t be place over another')
+                userPrompt('Ahoy , Matey!, A ship can\'t be place over another')
                 return false
               }
-
               return printShip(div, parseInt(div.textContent) +1, this.board())
             }
           })
@@ -109,6 +120,7 @@ document.addEventListener('DOMContentLoaded',()=>{
           }
           console.log(shipToPlace.width, lastChar(index), index)
           try {
+
             printShip(this.blankPixels()[index], index, this.blankPixels())
           } catch(error){
             this.board().forEach(div=> div.remove())
@@ -120,7 +132,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
 
-  const shipSelect = document.querySelectorAll('button')
+  const shipSelect = document.querySelectorAll('.footer > button')
   let currentShip = null
   // Add grid to boards:
   const x = new Grid(10,'User','userCss')
@@ -129,14 +141,25 @@ document.addEventListener('DOMContentLoaded',()=>{
   y.generateGrid()
   // Add grid to boards ^
 
+  let buttonClicked = null
   shipSelect.forEach(button=>{
     button.addEventListener('click',()=>{
+      if(buttonClicked === 5) return false
       currentShip = allShipType[button.innerText]
       button.disabled = true
+      buttonClicked++
       console.log(currentShip)
       shipToPlace = new Ship(currentShip[0],currentShip[1],currentShip[2],currentShip[3])
-      console.log(shipToPlace)
-      startVerses(numOfShipPlacements)
+      console.log(buttonClicked)
+      audio.play()
+      if(document.getElementsByClassName('.pixelUser').length>83){
+        console.log(document.getElementsByClassName('.pixelUser').length>83, 'test test')
+        return false
+      }else{
+        startVerses()
+
+      }
+
     })
   })
 
@@ -152,12 +175,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   y.autoShipPlacement() //null
-
-  const startVerses = function(numberOfShips){
-    if(numberOfShips!==5) return false
+  const aIboardSet = function(){
+    y.board().forEach(div => {
+      div.classList.add('inPlay')
+    })
+  }
+  aIboardSet()
+  const startVerses = function(){
     const right = children(y.name)
     right.forEach(div =>{
-      div.classList.add('inPlay')
       const result = div.className
       const test = result.match(regex)
       div.addEventListener('click',()=>{
@@ -179,7 +205,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const aIMove = function(){
     const left = children(x.name)
     console.log(left)
-    console.log(ifHitLoopCount)
+    console.log('ifHitLoopCount',ifHitLoopCount)
     let selectCell = null
     let gridIndex = null
     do{
@@ -191,19 +217,15 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     console.log(selectCell)
     let test = selectCell.classList.value.match(regex) // if note a ship goes to miss
-    if(test===null) //is a hit
-    {
+    if(test===null){//if this is a at hit
       test = []
     }else{
       test = test[0]
     }
     console.log(test)
 
-    if(Array.isArray(test)){
-      // add var to test ifs
-      // const debugVar = 65
-      // selectCell = left[debugVar]
-      // Testing ^
+    if(test !== 'pixel'){
+
       if(ifHitLoopCount === null){
 
         selectCell.classList.add('hit')
@@ -213,35 +235,75 @@ document.addEventListener('DOMContentLoaded',()=>{
         console.log(hit)
 
       }else{
-        if(ifHitLoopCount === 3) ifHitLoopCount = null
+        if(ifHitLoopCount === 2) ifHitLoopCount = null
 
         const nextMoves = [(hit-1), (hit-10), (hit+1), (hit+10)]
+
         let loopingTarget = null
+
         console.log(nextMoves)
+
         do{
-          loopingTarget = left[nextMoves[ifHitLoopCount]]
-          ifHitLoopCount++
+          try{
+            if(ifHitLoopCount < 4){
+              loopingTarget = left[nextMoves[ifHitLoopCount]]
+              console.log(loopingTarget, 'loopintarget')
+              if(loopingTarget.classList.value !== 'pixelUser'){
+                loopingTarget.classList.add('hit')
+              }
+              ifHitLoopCount++
+              console.log(ifHitLoopCount)
+            }
+            ifHitLoopCount = null
+          }catch(e){
+            console.log(e)
+            return false
+          }
         // filter out miss and pixel goes to miss
         // if miss adds to goes to next
-        } while (loopingTarget.classList.value.match(regex)!==null )
-        loopingTarget.classList.add('hit')
-        ifHitLoopCount++
+        } while (ifHitLoopCount < 3 || loopingTarget.classList.value !=='miss' )
+
+
+        ifHitLoopCount = null
+
       }
       aIHits++
       winCondition(aIHits, false)
     }else{
       selectCell.classList.add('miss')
+      selectCell.classList.remove('pixelUser')
       gridIndex = null
     }
   }
   // sort out win condition
   const winCondition = function(hits, user){
-    if(hits===10 && user === true){
-      alert('You Won Matey')
+    if(hits===17 && user === true){
+      userPrompt('You Won Matey')
     }else if(hits===17 && user === false){
-      alert('better luck Matey')
+      userPrompt('better luck Matey \n Play again!')
     }
   }
+  const reset = function(){
+    y.board().forEach(div=>div.remove())
+    x.board().forEach(div=>div.remove())
+    numOfShipPlacements = null
+    playerhits = null
+    aIHits = null
+    shipToPlace = null
+    currentShip = null
+    buttonClicked = null
+    y.generateGrid()
+    x.generateGrid()
+    y.autoShipPlacement()
+    document.querySelectorAll('button').forEach(button =>{
+      button.disabled = false
+    })
+    aIboardSet()
+  }
+  document.querySelector('#reset').addEventListener('click', ()=>{
+    reset()
+  })
+
   // Design Code below this pointer
   const watchingUser = document.querySelector('.User')
   const watchingAI = document.querySelector('.AI')

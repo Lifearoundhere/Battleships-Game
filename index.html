@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <script src="./js/app.js" charset="utf-8"></script>
     <link rel="stylesheet" href="./css/reset.css">
-    <link href="https://fonts.googleapis.com/css?family=Architects+Daughter|East+Sea+Dokdo|Pangolin|UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway+Dots|Raleway:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/master.css">
     <title>Battleships</title>
   </head>
@@ -17,22 +17,28 @@
             <li>Take turns firing upon the enemy by clicking on the grid on the right</li>
             <li>When the ships are sunk the winner iis declared. As the first person to sink all of the enemy ships wins the game</li>
           </ul>
-
+          <button type="button" name="button" id="reset">Reset</button>
     </div>
+      <!-- <div class="modal"><p>Click here to start</p><img src="./images/MVIMG_20190715_122631.jpeg" alt=""></div> -->
+
     <main class="container">
+      <audio controls autoplay src="Sounds/460161__kallesv__submarine-dive.mp3">
+      </audio>
+      
       <header class="header">
         <h1>Battleships</h1>
         <!-- https://lifearoundhere.github.io/Battleships-Game/ -->
+        <h2 class="messager">Click the arrow on the right for the rules</h2>
         <p id="openNav">&#10094;</p>
       </header>
-      <div class="flexSpaced">
+      <div class="flexSpaced1">
         <p class="target">Location <span id="XUser">0</span>,
           <span id="YUser">0</span></p>
           <h3>Player: You</h3>
       </div>
       <div class="boards User">
       </div>
-      <div class="flexSpaced">
+      <div class="flexSpaced2">
         <p class="target">Location <span id="XAI">0</span>,
           <span id="YAI">0</span></p>
           <h3>Player: CPU</h3>

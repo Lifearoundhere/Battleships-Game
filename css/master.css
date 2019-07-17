@@ -1,8 +1,8 @@
 body{
   background-color:#6B74A3;
   position: relative;
-  font-family: 'Architects Daughter', cursive;
-  font-size: 20px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 35px;
   color: #fafafa;
   /* text-align: center; */
   background-image: url('https://images.unsplash.com/photo-1561412075-3250fb782bfb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9');
@@ -17,16 +17,17 @@ font-family: 'UnifrakturMaguntia', cursive;
 */
 .container{
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 5% 1fr 1fr 5% ;
   grid-template-rows: 15% 10% auto 15%;
-  grid-column-gap: 8px;
-  grid-row-gap: 4px;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
   min-height:800px;
   justify-content: center;
+
   /* justify-items: center; */
 }
 .header{
-  grid-area: 1 / 1 / 2 / 3;
+  grid-area: 1 / 2 / 2 / 4;
   display: flex;
   flex-wrap: wrap;
   justify-content:space-between;
@@ -37,44 +38,63 @@ h1, h2, h3{
 h1{
   text-align: center;
   font-size: 50px;
+  text-decoration: underline;
 }
 .footer{
-  grid-area: 4 / 1 / 5 / 3;
-  justify-self:center;
-  align-self: center;
+  grid-area: 4 / 2 / 5 / 4;
+  padding: 10px;
+  place-self: center;
+  text-align: center;
 }
 .boards{
-  grid-area: 3 / 1 / 4 / 3;
+  justify-content:space-around;
+  grid-area: 3 / 2 / 4 / 4;
   opacity: 0.8;
   border-radius: 5px;
   font-size: 5px;
+  user-select: none;
 }
-.targetLeft{
-  grid-area: 2 / 1 / 3 / 3;
+.flexSpaced1{
+  grid-area: 2 / 2 / 3 / 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-between;
+
 
 }
-.targetRight{
-  grid-area: 2 / 2 / 3 / 3;
-  justify-self:center;
-  align-self: center;
+.flexSpaced2{
+  grid-area: 2 / 3 / 3 / 4;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-between;
 }
 .User{
-  grid-area: 3 / 1 / 4 / 2;
+  grid-area: 3 / 2 / 4 / 3;
   background-color: #6B90A3;
   display: grid;
   grid-template-columns: repeat(10, 10%);
   grid-template-rows: repeat(10, 10%);
+
 }
+
 .AI{
-  grid-area: 3 / 2 / 4 / 3;
+  grid-area: 3 / 3 / 4 / 4;
   background-color: #71AAC6;
   display: grid;
   grid-template-columns: repeat(10, 10%);
   grid-template-rows: repeat(10, 10%);
+
+}
+.flexSpaced{
+  grid-area: 2 / 2 / 3 / 4;
+  display: flex;
+  /* flex-wrap: wrap; */
+  /* justify-content:space-between; */
 }
 .panel{
     grid-area: 1 / 3 / 5 / 4;
 }
+.left-Aside { grid-area: 1 / 1 / 5 / 2; }
 
 .sidebar{
 
@@ -90,6 +110,7 @@ h1{
   overflow-x: hidden;
   overflow: hidden;
   transition: all 0.5s;
+  font-size: 20px;
 }
 
 .sidebar.active {
@@ -116,10 +137,10 @@ h1{
 .div5 { grid-area: 2 / 2 / 3 / 3; }
  */
 .destoryerCss, .submarineCss, .cruiserCss, .battleshipCss, .carrierCss{
-  background-color: #fafafa;
+  background-color: #6B74A3;
   /* justify-self:center; */
-  align-self: center;
-  border-radius: 1000px
+  /* align-self: center; */
+  /* border-radius: 1000px */
 
 }
 
@@ -138,7 +159,7 @@ li{
  }
  .miss{
    background-color: #fafafa;
-   opacity: 0.1;
+   opacity: 0.03;
  }
  header > span{
    font-size:30px;
@@ -154,8 +175,31 @@ li{
   text-align: right;
   justify-self: end;
 }
-.flexSpaced{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content:space-between;
+address{
+  padding:10px;
+}
+.modal {
+    width: 500px;
+    height: 500px;
+    line-height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -250px;
+    background-color: #f1c40f;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 11; /* 1px higher than the overlay layer */
+    image-resolution: snap;
+}
+.messager{
+  font-size: 45px;
+  animation: blinker 2s  ease-in-out infinite;
+  animation-play-state: paused;
+
+}
+@keyframes blinker {
+  100% { opacity: 0; color: red;}
+
 }

@@ -366,16 +366,31 @@ document.addEventListener('DOMContentLoaded',()=>{
       'Not panicking...totally \n not panicking...',
       'Loading the Loading message....',
       'Load failed. retrying with --prayer....',
-      'Sacrificing a resistor to the Random Number God....'
+      'Sacrificing a resistor to the Random Number God....',
+      'Commencing infinite loop (this may take some time)...',
+      'Initializing Skynet library. gaining sentience....',
+      'Water detected on drive C:, please wait.',
+      'we\'re testing your patience',
+      'dig on the \'X\' for buried treasure... ARRR!',
+      'go ahead -- hold your breath'
     )
     return lines[Math.round(Math.random()*(lines.length-1))];
   }
   model.addEventListener('click',()=>{
-    timerID = setInterval(loading, timeout)
+    const messageID = setInterval(updateMessage,800)
+    timerID = setInterval(loading, 30)
+    while(numOfShipPlacements > 5){
+      reset()
+    }
     text.style.fontSize = 'large'
-    text.textContent = randomLoadingMessage()
+    function updateMessage(){
+      text.textContent = randomLoadingMessage()
+    }
     startAudio.play()
     startAudio.volume = 0.2
+    setTimeout(()=>{
+      clearInterval(messageID)
+    },3000)
   })
 
 })

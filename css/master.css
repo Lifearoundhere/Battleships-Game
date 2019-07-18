@@ -3,7 +3,7 @@ body{
   position: relative;
   font-family: 'Raleway', sans-serif;
   font-size: 35px;
-  color: #fafafa;
+  color: #222; /*#fafafa;*/
   /* text-align: center; */
   background-image: url('https://images.unsplash.com/photo-1561412075-3250fb782bfb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9');
   background-repeat: no-repeat;
@@ -117,8 +117,11 @@ h1{
   transform: translateX(0);
 }
 .sidebar .closeAside{
+  padding-top: 20px;
   top: 0;
   font-size: 36px;
+  text-decoration:none;
+  color:inherit;
 
 }
 .block{
@@ -155,8 +158,24 @@ li{
    background-color: navy;
  }
  .hit{
-   background-color: yellow;
- }
+  background:gold;
+  box-shadow: 0px 0px 9px 4px gold;
+  transform: rotate(-40deg)scale(0.5,0.8);
+  animation-name: flicker;
+  animation-duration:3ms;
+  animation-delay:200ms;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes flicker{
+  0%   {transform: rotate(-1deg);}
+  20%  {transform: rotate(1deg);}
+  40%  {transform: rotate(-1deg);}
+  60%  {transform: rotate(1deg) scaleY(1.04);}
+  80%  {transform: rotate(-2deg) scaleY(0.92);}
+  100% {transform: rotate(1deg);}
+}
  .miss{
    background-color: #fafafa;
    opacity: 0.03;
@@ -184,33 +203,41 @@ address{
     visibility: visible;
     top: 50%;
     left: 50%;
-    width: 400px;
-    line-height: 200px;
-    height: 300px;
-    margin-left: -200px;
+    width: 500px;
+    line-height: 50px;
+    height: 200px;
+    margin-left: -250px;
     margin-top: -150px;
     background-color: #82A7BA;
     text-align: center;
     cursor: pointer;
+    color: #fafafa;
+
     /* needed styles for the overlay */
     z-index: 10; /* keep on top of other elements on the page */
-    outline: 9999px solid rgba(0,0,0,0.9);
+    outline: 9999px solid rgba(0,0,0,0.99);
 }
 .model #bar{
   width: inherit;
+  background-color: #ddd;
+
 }
 #barLevel{
   height: 20px;
   width: 0%;
-  background-color:black;
+  background-color:#d10300;
 }
 .messager{
   font-size: 45px;
   animation: blinker 2s  ease-in-out infinite;
   animation-play-state: paused;
+  color: black;
 
 }
 @keyframes blinker {
-  100% { opacity: 0; color: red;}
+  100% { opacity: 0; color: #d10300;}
 
+}
+span{
+  color: #d10300;
 }

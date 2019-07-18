@@ -5,7 +5,6 @@ const regexScore = new RegExp('miss')
 
 const startAudio = new Audio('Sounds/intro.flac')
 const subAudio = new Audio('Sounds/460161__kallesv__submarine-dive.mp3')
-const hitAudio = new Audio('Sounds/184728__qubodup__mk-45-gun-fired.flac')
 const hitAudio2 = new Audio('Sounds/399853__morganpurkis__warship-main-battery-opening-fire.wav')
 
 const randomGridCell = function(){
@@ -76,6 +75,7 @@ document.addEventListener('DOMContentLoaded',()=>{
           div.className = `pixel${this.name}`
           // if(this.name === 'AI') div.classList.add('inPlay')
           div.textContent = `${i}`
+          div.style.color = 'transparent'
           div.addEventListener('click',()=>{
             console.log(numOfShipPlacements)
             if(numOfShipPlacements !== 10){
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(ifHitLoopCount === null){
 
         selectCell.classList.add('hit')
-        hitAudio.play()
+        hitAudio2.play()
         ifHitLoopCount = 0
         hit = gridIndex
         console.log(hit)
@@ -347,7 +347,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   const text = document.getElementById('text')
   let cssWidth = 1
   let timerID = null
-  const timeout = 25
   const loading = function(){
     if(cssWidth >= 100){
       clearInterval(timerID)
@@ -374,15 +373,15 @@ document.addEventListener('DOMContentLoaded',()=>{
       'dig on the \'X\' for buried treasure... ARRR!',
       'go ahead -- hold your breath'
     )
-    return lines[Math.round(Math.random()*(lines.length-1))];
+    return lines[Math.round(Math.random()*(lines.length-1))]
   }
   model.addEventListener('click',()=>{
     const messageID = setInterval(updateMessage,800)
-    timerID = setInterval(loading, 30)
+    timerID = setInterval(loading, 38)
     while(numOfShipPlacements > 5){
       reset()
     }
-    text.style.fontSize = 'large'
+    text.style.fontSize = 'medium'
     function updateMessage(){
       text.textContent = randomLoadingMessage()
     }

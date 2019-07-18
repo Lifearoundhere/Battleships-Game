@@ -81,7 +81,7 @@ I like the design at the end and was quite satisfied with my dictionary function
 
 I enjoyed styling with css and javascript which allowed me to get creative with a dynamic loading page.
 
-![image-20190718211412607](/Users/p/development/project-01/assets/image-20190718211412607.png)
+![image-20190718211412607](assets/image-20190718211412607.png)
 
 ## **Future features**
 

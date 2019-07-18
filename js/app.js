@@ -27,9 +27,6 @@ class Ship {
     this.height = height
     this.width = width
     this.cssClass = cssClass
-    this.style = function(){
-      return console.log(this)
-    }
     this.yaxis = function(){
       return [this.height, this.width] = [this.width, this.height]
 

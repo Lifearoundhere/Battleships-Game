@@ -2,9 +2,11 @@ const gridLength = 10
 let numOfShipPlacements = null
 const regex = new RegExp('pixel')
 const regexScore = new RegExp('miss')
-let playerhits = null
-let aIHits = null
-var audio = new Audio('Sounds/intro.flac')
+
+const startAudio = new Audio('Sounds/intro.flac')
+const subAudio = new Audio('Sounds/460161__kallesv__submarine-dive.mp3')
+const hitAudio = new Audio('Sounds/184728__qubodup__mk-45-gun-fired.flac')
+const hitAudio2 = new Audio('Sounds/399853__morganpurkis__warship-main-battery-opening-fire.wav')
 
 const randomGridCell = function(){
   return Math.round(Math.random()*Math.pow(gridLength,2))
@@ -151,7 +153,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       console.log(currentShip)
       shipToPlace = new Ship(currentShip[0],currentShip[1],currentShip[2],currentShip[3])
       console.log(buttonClicked)
-      audio.play()
       if(document.getElementsByClassName('.pixelUser').length>83){
         console.log(document.getElementsByClassName('.pixelUser').length>83, 'test test')
         return false
@@ -189,8 +190,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       div.addEventListener('click',()=>{
         if(test===null){
           div.classList = 'hit'
-          playerhits++
-          winCondition(playerhits, true)
+          winCondition()
         }else{
           div.classList = 'miss'
         }
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(ifHitLoopCount === null){
 
         selectCell.classList.add('hit')
-
+        hitAudio.play()
         ifHitLoopCount = 0
         hit = gridIndex
         console.log(hit)
@@ -252,6 +252,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                 loopingTarget.classList.add('hit')
               }
               ifHitLoopCount++
+              hitAudio2.play()
               console.log(ifHitLoopCount)
             }
             ifHitLoopCount = null
@@ -267,8 +268,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         ifHitLoopCount = null
 
       }
-      aIHits++
-      winCondition(aIHits, false)
+      winCondition()
     }else{
       selectCell.classList.add('miss')
       selectCell.classList.remove('pixelUser')
@@ -276,19 +276,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
   // sort out win condition
-  const winCondition = function(hits, user){
-    if(hits===17 && user === true){
+  const winCondition = function(){
+    const regexHit = new RegExp('hit')
+    const userHit = Array.from(children('User')).filter(elem => elem.className.match(regexHit) ===null).length
+    const aIHit = Array.from(children('AI')).filter(elem => elem.className.match(regexHit) ===null).length
+    console.log(userHit)
+    if(aIHit===83){
       userPrompt('You Won Matey')
-    }else if(hits===17 && user === false){
+    }else if(userHit===83){
       userPrompt('better luck Matey \n Play again!')
+      subAudio.play()
     }
   }
   const reset = function(){
     y.board().forEach(div=>div.remove())
     x.board().forEach(div=>div.remove())
     numOfShipPlacements = null
-    playerhits = null
-    aIHits = null
     shipToPlace = null
     currentShip = null
     buttonClicked = null
@@ -339,7 +342,40 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.querySelector('.closeAside').addEventListener('click', ()=>{
     document.querySelector('.sidebar').classList.toggle('active')
   })
+  const model = document.querySelector('.modal')
+  const bar = document.getElementById('barLevel')
+  const text = document.getElementById('text')
+  let cssWidth = 1
+  let timerID = null
+  const timeout = 25
+  const loading = function(){
+    if(cssWidth >= 100){
+      clearInterval(timerID)
+      model.style.visibility = 'hidden'
+    }else{
+      cssWidth++
+      bar.style.width = cssWidth + '%'
+    }
+  }
+  const randomLoadingMessage = function() {
+    const lines = new Array(
 
-
+      'Spinning up the hamster...',
+      'Shovelling coal into the browser...',
+      'Programming the flux capacitor',
+      'Not panicking...totally \n not panicking...',
+      'Loading the Loading message....',
+      'Load failed. retrying with --prayer....',
+      'Sacrificing a resistor to the Random Number God....'
+    )
+    return lines[Math.round(Math.random()*(lines.length-1))];
+  }
+  model.addEventListener('click',()=>{
+    timerID = setInterval(loading, timeout)
+    text.style.fontSize = 'large'
+    text.textContent = randomLoadingMessage()
+    startAudio.play()
+    startAudio.volume = 0.2
+  })
 
 })

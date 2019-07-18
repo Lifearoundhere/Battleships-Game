@@ -179,19 +179,30 @@ address{
   padding:10px;
 }
 .modal {
-    width: 500px;
-    height: 500px;
-    line-height: 100px;
+    /* some styles to position the modal at the center of the page */
     position: fixed;
+    visibility: visible;
     top: 50%;
     left: 50%;
-    margin-top: -250px;
-    margin-left: -250px;
-    background-color: #f1c40f;
-    border-radius: 5px;
+    width: 400px;
+    line-height: 200px;
+    height: 300px;
+    margin-left: -200px;
+    margin-top: -150px;
+    background-color: #82A7BA;
     text-align: center;
-    z-index: 11; /* 1px higher than the overlay layer */
-    image-resolution: snap;
+    cursor: pointer;
+    /* needed styles for the overlay */
+    z-index: 10; /* keep on top of other elements on the page */
+    outline: 9999px solid rgba(0,0,0,0.9);
+}
+.model #bar{
+  width: inherit;
+}
+#barLevel{
+  height: 20px;
+  width: 0%;
+  background-color:black;
 }
 .messager{
   font-size: 45px;

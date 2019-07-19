@@ -25,14 +25,18 @@ The brief was to build battleship using vanilla  JavaScript. The concept require
 
 ## Process
 
-I started with the planning phase by building a Kanban Roadmap within Notion (a note-taking and collaboration application like Evernote).  I created cards for each of the challenges that I felt I would face allowing me to break down the large project into a list of smaller tasks.  Effectively each task became a function or feature. 
+I started with the planning phase by building a Kanban Roadmap within Notion (a note-taking and collaboration application like Evernote).  I created cards for each of the challenges that I felt I would face allowing me to break down the large project into a list of smaller tasks.  Effectively each task became a function or feature.
 
 ![image-20190718205757583](assets/image-20190718205757583.png)
 
 
 
 <<<<<<< HEAD
-I first started by building a dictionary objects with a list of all the ships and then a constructor class to build my ships for me when called. I then built a mockup of what I thought my HTML needed to entail using  CSS grid. Once satisfied that I had the main double elements that are needed to call to allow me to start building out more of my JavaScript.  I then built a loop to add each of the cells, which would become the clickable divs for the user.  I eventually built a grid constructor class because I felt that it would reduce the amount of repeatable code. As there are two grids that need to be produced and reset simultaneously, and only a divergence of a few procedural functions for each depending on whether not the CPU or the player would control it. 
+<<<<<<< HEAD
+I first started by building a dictionary objects with a list of all the ships and then a constructor class to build my ships for me when called. I then built a mockup of what I thought my HTML needed to entail using  CSS grid. Once satisfied that I had the main double elements that are needed to call to allow me to start building out more of my JavaScript.  I then built a loop to add each of the cells, which would become the clickable divs for the user.  I eventually built a grid constructor class because I felt that it would reduce the amount of repeatable code. As there are two grids that need to be produced and reset simultaneously, and only a divergence of a few procedural functions for each depending on whether not the CPU or the player would control it.
+=======
+I first started by building a dictionary objects with a list of all the ships and then a constructor class to build my ships for me when called. I then built a mockup of what I thought my HTML needed to entail using  CSS grid. Once satisfied that I had the main double elements that are needed to call to allow me to start building out more of my JavaScript.  I then built a loop to add each of the cells, which would become the clickable divs for the user.  I eventually built a grid constructor class because I felt that it would reduce the amount of repeatable code. As there are two grids that need to be produced and reset simultaneously, and only a divergence of a few procedural functions for each depending on whether not the CPU or the player would control it.  
+>>>>>>> master
 =======
 I first started by building a dictionary objects with a list of all the ships and then a constructor class to build my ships for me when called. I then built a mockup of what I thought my HTML needed to entail using  CSS grid. Once satisfied that I had the main double elements that are needed to call to allow me to start building out more of my JavaScript.  I then built a loop to add each of the cells, which would become the clickable divs for the user.  I eventually built a grid constructor class because I felt that it would reduce the amount of repeatable code. As there are two grids that need to be produced and reset simultaneously, and only a divergence of a few procedural functions for each depending on whether not the CPU or the player would control it.  
 >>>>>>> master
@@ -91,13 +95,15 @@ I enjoyed styling with CSS and javascript, which allowed me to get creative with
 ## Future features
 
 Future feature to add is an easy, normal and hard mode for the game with a scalable searching algorithm as the primary function driving the CPU players manoeuvres.  I would add dragged and droppable divs instead of using buttons as I would feel that it would be more responsive and turns of UX. I also think something like this in the future would be great as a progressive web app as I get further into my Bootcamp course. I am very much looking forward to the back-end technologies.
-=======
-
->>>>>>> master
 
 ![loading](assets/Loading.gif)
 
+=======
+
+
+![loading](assets/Loading.gif)
+
+>>>>>>> master
 ## **Future features**
 
 Future feature to add is an easy, normal and hard mode for the game with a scalable searching algorithm as the primary function driving the CPU players manoeuvres.  I would add dragged and droppable divs instead of using buttons as I would feel that it would be more responsive and turns of UX. I also think something like this in the future would be great as a progressive web app as I get further into my Bootcamp course. I am very much looking forward to the back-end technologies.
-

@@ -4,8 +4,6 @@ Vanilla JavaScript Game
 
 [Link to Play Battleships](https://lifearoundhere.github.io/Battleships-Game/)
 
-https://docs.google.com/document/d/1gwbNmenQ39EPhfdV-5jh-ZhzzEv8vzpplMzKM9vNlDg/edit#heading=h.jbqlbwf0clb5
-
 **Timeframe**: 7 days solo project
 
 - Technologies used
@@ -81,7 +79,7 @@ I like the design at the end and was quite satisfied with my dictionary function
 
 I enjoyed styling with css and javascript which allowed me to get creative with a dynamic loading page.
 
-![image-20190718211412607](assets/image-20190718211412607.png)
+![loading](assets/Loading.gif)
 
 ## **Future features**
 

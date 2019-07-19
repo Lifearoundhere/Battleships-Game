@@ -29,7 +29,7 @@ The brief was to build battleship using vanilla  JavaScript.  the concepts requi
 
 I started with the planning phase by building a Kanban Roadmap within Notion (a note-taking and collaboration application like Evernote).  I created cards for each of the challenges that I felt I would face allowing me to break down the large project into a list of smaller tasks.  Effectively each task became a function or feature. 
 
-![image-20190718205757583](/Users/p/development/project-01/assets/image-20190718205757583.png)
+![image-20190718205757583](assets/image-20190718205757583.png)
 
 
 
@@ -81,7 +81,7 @@ I like the design at the end and was quite satisfied with my dictionary function
 
 I enjoyed styling with css and javascript which allowed me to get creative with a dynamic loading page.
 
-![image-20190718211412607](/Users/p/development/project-01/assets/image-20190718211412607.png)
+![image-20190718211412607](assets/image-20190718211412607.png)
 
 ## **Future features**
 

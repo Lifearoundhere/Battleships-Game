@@ -25,7 +25,7 @@ The brief was to build battleship using vanilla  JavaScript. The concept require
 
 ## **Process**
 
-I started with the planning phase by building a Kanban Roadmap within Notion (a note-taking and collaboration application like Evernote).  I created cards for each of the challenges that I felt I would face allowing me to break down the large project into a list of smaller tasks.  Effectively each task became a function or feature. 
+I started with the planning phase by building a Kanban Roadmap within Notion (a note-taking and collaboration application like Evernote).  I created cards for each of the challenges that I felt I would face allowing me to break down the large project into a list of smaller tasks.  Effectively each task became a function or feature.
 
 ![image-20190718205757583](assets/image-20190718205757583.png)
 
@@ -79,11 +79,12 @@ I liked the design at the end and was quite satisfied with my dictionary functio
 
 I enjoyed styling with CSS and javascript, which allowed me to get creative with a dynamic loading page.
 
+<p align='center'>
+  <img src = 'assets/Loading.gif'>
+</p>
 
 
-![loading](assets/Loading.gif)
 
 ## **Future features**
 
 Future feature to add is an easy, normal and hard mode for the game with a scalable searching algorithm as the primary function driving the CPU players manoeuvres.  I would add dragged and droppable divs instead of using buttons as I would feel that it would be more responsive and turns of UX. I also think something like this in the future would be great as a progressive web app as I get further into my Bootcamp course. I am very much looking forward to the back-end technologies.
-
